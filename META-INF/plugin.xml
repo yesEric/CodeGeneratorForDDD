@@ -1,0 +1,69 @@
+<idea-plugin version="2">
+  <id>com.yourcompany.unique.plugin.id</id>
+  <name>Plugin display name here</name>
+  <version>1.0</version>
+  <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+
+  <description><![CDATA[
+      Enter short description for your plugin here.<br>
+      <em>most HTML tags may be used</em>
+    ]]></description>
+
+  <change-notes><![CDATA[
+      Add change notes here.<br>
+      <em>most HTML tags may be used</em>
+    ]]>
+  </change-notes>
+
+  <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
+  <idea-version since-build="131"/>
+
+  <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
+       on how to target different products -->
+  <!-- uncomment to enable plugin in all products
+  <depends>com.intellij.modules.lang</depends>
+  -->
+
+  <extensions defaultExtensionNs="com.intellij">
+    <!-- Add your extensions here -->
+  </extensions>
+
+  <application-components>
+    <!-- Add your application components here -->
+
+  </application-components>
+
+  <project-components>
+    <!-- Add your project components here -->
+  </project-components>
+
+  <actions>
+    <!-- Add your actions here -->
+
+      <action id="CodeGen.DTOCodeGenPlugin.DTOAction" class="cn.dorado.plugins.actions.DTOAction" text="DTO"
+              description="DTO">
+
+      </action>
+      <action id="CodeGen.GenAllAction" class="cn.dorado.plugins.actions.CodeGenAction" text="GenDTO"
+              description="DTOGenAction"/>
+
+      <group id="Actions.CodeGen.MenuGroup" text="_Generator" description="DDD Code Generation">
+          <reference ref="CodeGen.DTOCodeGenPlugin.DTOAction"/>
+          <separator/>
+          <reference ref="CodeGen.GenAllAction"/>
+          <separator/>
+          <add-to-group group-id="MainMenu" anchor="last"/>
+          <separator/>
+          <add-to-group group-id="NewGroup" anchor="after" relative-to-action="File"/>
+      </group>
+
+
+
+  </actions>
+
+    <module-components>
+        <component>
+            <implementation-class>cn.dorado.plugins.components.DTOGeneratorPlugin</implementation-class>
+        </component>
+    </module-components>
+</idea-plugin>

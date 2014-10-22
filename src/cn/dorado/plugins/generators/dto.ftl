@@ -1,13 +1,13 @@
-package ${packageName};
+package ${dtoPackage};
 
 import java.io.Serializable;
 import org.apache.commons.beanutils.BeanUtils;
-import ${entityPackageName}.${className};
+import ${entityPackageName}.${entityClassName};
 
 /**
- *  ${className?cap_first}对象的DTO类.
+ *  ${entityClassName?cap_first}对象的DTO类.
  */
-public class ${className?cap_first}Data implements Serializable{
+public class ${dto} implements Serializable{
 
 
 <#--生成字段-->
@@ -16,14 +16,14 @@ public class ${className?cap_first}Data implements Serializable{
 </#list>
 
 
-    public  ${className}Data(){
+    public  ${dto}(){
 
      }
 
-    public  ${className}Data(final ${className?cap_first}  ${className?uncap_first} ){
+    public ${dto}(final ${entityClassName}  ${entityClassName?uncap_first} ){
 
         try {
-			BeanUtils.copyProperties(this,  ${className?uncap_first});
+			BeanUtils.copyProperties(this,  ${entityClassName?uncap_first});
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {

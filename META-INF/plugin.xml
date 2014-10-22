@@ -44,8 +44,8 @@
               description="DTO">
 
       </action>
-      <action id="CodeGen.GenAllAction" class="cn.dorado.plugins.actions.CodeGenAction" text="GenDTO"
-              description="DTOGenAction"/>
+      <action id="CodeGen.GenAllAction" class="cn.dorado.plugins.actions.CodeGenAction" text="GenDDD"
+              description="DDDGenAction"/>
 
       <group id="Actions.CodeGen.MenuGroup" text="_Generator" description="DDD Code Generation">
           <reference ref="CodeGen.DTOCodeGenPlugin.DTOAction"/>

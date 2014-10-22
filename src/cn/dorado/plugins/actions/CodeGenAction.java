@@ -1,6 +1,7 @@
 package cn.dorado.plugins.actions;
 
 import cn.dorado.plugins.components.GeneratorProperties;
+import cn.dorado.plugins.generators.CodeGenerator;
 import cn.dorado.plugins.gui.CodeGenDialog;
 import cn.dorado.plugins.utils.PsiUtils;
 import cn.dorado.plugins.utils.SourceRootUtils;
@@ -70,6 +71,10 @@ public class CodeGenAction extends AnAction {
                 .setSourceRoot(preferredSourceRoot);
         CodeGenDialog codeGenDialog=new CodeGenDialog(project, selectedClass, candidateSourceRoots, generatorProperties);
         codeGenDialog.show();
+        if(codeGenDialog.isOK()){
+            new CodeGenerator(selectedClass,codeGenDialog.getSelectedTargetClassPanel(),generatorProperties).generate();
+        }
+
     }
 
     @Nullable
@@ -83,7 +88,7 @@ public class CodeGenAction extends AnAction {
         List<VirtualFile> candidateSourceRoots = null;
 
         if (module != null) {
-            List<VirtualFile> validModuleTestSourceRoots = SourceRootUtils.getSourceRoots(module, JavaSourceRootType.TEST_SOURCE, true);
+            List<VirtualFile> validModuleTestSourceRoots = SourceRootUtils.getSourceRoots(module, JavaSourceRootType.SOURCE, true);
             if (validModuleTestSourceRoots.size() > 0) {
                 candidateSourceRoots = validModuleTestSourceRoots;
             } else {
@@ -94,7 +99,7 @@ public class CodeGenAction extends AnAction {
                 }
             }
         } else {
-            List<VirtualFile> validProjectTestSourceRoots = SourceRootUtils.getSourceRoots(project, JavaSourceRootType.TEST_SOURCE, true);
+            List<VirtualFile> validProjectTestSourceRoots = SourceRootUtils.getSourceRoots(project, JavaSourceRootType.SOURCE, true);
             if (validProjectTestSourceRoots.size() > 0) {
                 candidateSourceRoots = validProjectTestSourceRoots;
             } else {

@@ -5,6 +5,7 @@ import cn.dorado.plugins.components.SelectTargetClassPanelDataSource;
 import cn.dorado.plugins.components.SelectedTargetClassPanel;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
+import com.intellij.openapi.ui.ValidationInfo;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiClass;
 import org.jetbrains.annotations.NotNull;
@@ -40,10 +41,27 @@ public class CodeGenDialog extends DialogWrapper implements SelectTargetClassPan
         this.selectedTargetClassPanel=new EntitySelectionPanel(this);
         this.setTitle("Generate DDD Code");
         this.setModal(true);
+
         this.init();
 
 
 
+    }
+    @Nullable
+    @Override
+    protected ValidationInfo doValidate() {
+        ValidationInfo validationInfo = selectedTargetClassPanel.doValidate();
+
+        if (validationInfo != null) {
+            return validationInfo;
+        }
+
+
+        return super.doValidate();
+    }
+
+    public EntitySelectionPanel getSelectedTargetClassPanel() {
+        return selectedTargetClassPanel;
     }
 
     @Nullable

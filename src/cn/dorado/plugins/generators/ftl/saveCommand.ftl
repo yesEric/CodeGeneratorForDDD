@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 
 /**
- *  初始化一个${entityClassName}的命令.
+ *  a save command for the ${entityClassName}.
  */
 public class Save${entityClassName}Command implements Serializable{
 

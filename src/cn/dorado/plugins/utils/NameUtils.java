@@ -71,7 +71,11 @@ public final class NameUtils {
         int idx = packageName.indexOf('.');
         return idx >= 0 ? packageName.substring(0, idx) : packageName;
     }
-
+    @NotNull
+    public static String getFirstDir(@NotNull String packageName) {
+        int idx = packageName.indexOf('/');
+        return idx >= 0 ? packageName.substring(0, idx) : packageName;
+    }
     /**
      * Gets the remainder of a package name after the first component has been removed.
      *
@@ -81,6 +85,12 @@ public final class NameUtils {
     @NotNull
     public static String dropFirstPackage(@NotNull String packageName) {
         int idx = packageName.indexOf('.');
+        return idx >= 0 ? packageName.substring(idx + 1) : "";
+    }
+
+    @NotNull
+    public static String dropFirstDir(@NotNull String packageName) {
+        int idx = packageName.indexOf('/');
         return idx >= 0 ? packageName.substring(idx + 1) : "";
     }
 }

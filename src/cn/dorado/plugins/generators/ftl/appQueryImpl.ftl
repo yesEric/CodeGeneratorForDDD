@@ -11,12 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ${appQueryClassName} 的实现类.
+ * ${appQueryClassName}'s implementation.
  */
 @Service("${appQueryClassName?uncap_first}")
 public class ${appQueryImplClassName} implements ${appQueryClassName} {
 	/**
-	 * ${entityPackage} 领域资源库.
+	 * ${entityPackage}'s Repository..
 	 */
 	@Autowired
 	private ${repositoryClassName} ${repositoryClassName?uncap_first};
@@ -36,11 +36,11 @@ public class ${appQueryImplClassName} implements ${appQueryClassName} {
 
 
 	/**
-	 * 转换为值对象集合.
+	 * Cover the Entity list to ValueObject list..
 	 *
 	 * @param ${entityClassName?uncap_first}s
-	 *            ${entityClassName?uncap_first}集合
-	 * @return 转换后的值对象集合
+	 *           a collection of  ${entityClassName?uncap_first}
+	 * @return covered list.
 	 */
 	private List<${dto}> transform(final List<${entityClassName}> ${entityClassName?uncap_first}s) {
 		List<${dto}> ${entityClassName?uncap_first}DataList = new ArrayList<${dto}>();

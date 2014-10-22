@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 
 /**
- * 删除${entityClassName}的命令.
+ * a command to remove the ${entityClassName}.
  */
 public class Remove${entityClassName}Command implements Serializable {
 	/**

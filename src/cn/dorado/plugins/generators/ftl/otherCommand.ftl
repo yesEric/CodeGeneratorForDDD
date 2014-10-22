@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 
 /**
- * ${commandName?cap_first}${entityClassName}的命令.
+ * A command to ${commandName?cap_first} the ${entityClassName}.
  */
 public class ${commandName}${entityClassName}Command implements Serializable {
 	/**

@@ -5,7 +5,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import ${entityPackageName}.${entityClassName};
 
 /**
- *  ${entityClassName?cap_first}对象的DTO类.
+ *  the DTO of the ${entityClassName?cap_first}.
  */
 public class ${dto} implements Serializable{
 

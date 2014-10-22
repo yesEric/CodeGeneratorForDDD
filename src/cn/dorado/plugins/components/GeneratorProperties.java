@@ -9,8 +9,18 @@ public class GeneratorProperties {
     private String concreteSubclassName;
     private String packageName;
     private VirtualFile sourceRoot;
+    private VirtualFile resourceRoot;
     private String superClassName;
     private String entityPackageName;
+
+    public VirtualFile getResourceRoot() {
+        return resourceRoot;
+    }
+
+    public GeneratorProperties setResourceRoot(VirtualFile resourceRoot) {
+        this.resourceRoot = resourceRoot;
+        return this;
+    }
 
     public String getEntityPackageName() {
         return entityPackageName;

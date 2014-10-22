@@ -40,17 +40,17 @@
   <actions>
     <!-- Add your actions here -->
 
-      <action id="CodeGen.DTOCodeGenPlugin.DTOAction" class="cn.dorado.plugins.actions.DTOAction" text="DTO"
-              description="DTO">
 
-      </action>
       <action id="CodeGen.GenAllAction" class="cn.dorado.plugins.actions.CodeGenAction" text="GenDDD"
               description="DDDGenAction"/>
+      <action id="CodeGen.WebCodeGenAction" class="cn.dorado.plugins.actions.WebCodeGenAction" text="GenWebCode"
+              description="GenWebCode"/>
 
       <group id="Actions.CodeGen.MenuGroup" text="_Generator" description="DDD Code Generation">
-          <reference ref="CodeGen.DTOCodeGenPlugin.DTOAction"/>
-          <separator/>
+
           <reference ref="CodeGen.GenAllAction"/>
+          <separator/>
+          <reference ref="CodeGen.WebCodeGenAction"/>
           <separator/>
           <add-to-group group-id="MainMenu" anchor="last"/>
           <separator/>

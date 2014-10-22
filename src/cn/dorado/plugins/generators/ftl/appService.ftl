@@ -10,26 +10,26 @@ import cn.dorado.domain.common.exception.DomainValidationException;
 import cn.dorado.domain.common.exception.IllegalStatusException;
 
 /**
- * ${entityClassName} 的应用服务，执行命令.
+ * ${entityClassName}'s application service..
  */
 public interface ${appServiceClassName} {
 
     /**
-     * 保存渠道信息.
+     * save the ${entityClassName} object.
      *
-     * @param save${entityClassName}Command 初始化渠道的命令
-     * @return 保存后的渠道信息
-     * @throws cn.dorado.domain.common.exception.DomainValidationException 模型校验异常
+     * @param save${entityClassName}Command a save command object
+     * @return saved  ${entityClassName} object.
+     * @throws cn.dorado.domain.common.exception.DomainValidationException Domain validation Exception.
      */
     ${dto} save${entityClassName}(Save${entityClassName}Command save${entityClassName}Command)
             throws DomainValidationException;
 
     /**
-     * 删除实体.
+     * Remove the ${entityClassName}.
      *
-     * @param remove${entityClassName}Command 删除命令
-     * @throws IllegalStatusException 非法状态下删除实体抛出的异常
-     * @throws cn.dorado.domain.common.exception.DomainValidationException 模型校验异常
+     * @param remove${entityClassName}Command a remove command object.
+     * @throws IllegalStatusException IllegalStatusException
+     * @throws cn.dorado.domain.common.exception.DomainValidationException Domain validation Exception
      */
     void remove${entityClassName}(Remove${entityClassName}Command remove${entityClassName}Command)
             throws IllegalStatusException;
@@ -37,10 +37,10 @@ public interface ${appServiceClassName} {
     <#list methodList as methodName>
     /**
          *
-         * @param ${methodName?uncap_first}${entityClassName}Command 激活命令
+         * @param ${methodName?uncap_first}${entityClassName}Command a command to ${methodName?uncap_first} the ${entityClassName}
          * @return 激活后的渠道对象
-         * @throws cn.dorado.domain.common.exception.IllegalStatusException 激活渠道时的状态异常
-         * @throws cn.dorado.domain.common.exception.DomainValidationException 模型校验异常
+         * @throws cn.dorado.domain.common.exception.IllegalStatusException IllegalStatusException
+         * @throws cn.dorado.domain.common.exception.DomainValidationException DomainValidationException
          */
         ${dto} ${methodName?uncap_first}${entityClassName}(
                 ${methodName?cap_first}${entityClassName}Command ${methodName?uncap_first}${entityClassName}Command)

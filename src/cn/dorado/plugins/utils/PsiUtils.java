@@ -118,7 +118,19 @@ public class PsiUtils {
             return baseDir;
         }
     }
+    @Nullable
+    public static PsiDirectory findDirectoryForDir(@NotNull PsiDirectory baseDir, @NotNull String packageName) {
+        if (packageName.length() > 0) {
+            String packageStart = NameUtils.getFirstDir(packageName);
+            String packageRemainder = NameUtils.dropFirstDir(packageName);
 
+            PsiDirectory newBaseDir = baseDir.findSubdirectory(packageStart);
+
+            return (newBaseDir == null) ? null : findDirectoryForDir(newBaseDir, packageRemainder);
+        } else {
+            return baseDir;
+        }
+    }
     /**
      * For a given base directory and package name, ensures that the related package directory exists.
      *
@@ -139,7 +151,26 @@ public class PsiUtils {
             createMissingDirectoriesForPackage(newBaseDir, packageRemainder);
         }
     }
+    /**
+     * For a given base directory and package name, ensures that the related package directory exists.
+     *
+     * @param baseDir     the base directory
+     * @param packageName the package name
+     */
+    public static void createMissingDirectoriesForFolder(@NotNull PsiDirectory baseDir, @NotNull String packageName) {
+        if (packageName.length() > 0) {
+            String packageStart = NameUtils.getFirstDir(packageName);
+            String packageRemainder = NameUtils.dropFirstDir(packageName);
 
+            PsiDirectory newBaseDir = baseDir.findSubdirectory(packageStart);
+
+            if (newBaseDir == null) {
+                newBaseDir = baseDir.createSubdirectory(packageStart);
+            }
+
+            createMissingDirectoriesForFolder(newBaseDir, packageRemainder);
+        }
+    }
     /**
      * Determine if the supplied class is abstract.
      *

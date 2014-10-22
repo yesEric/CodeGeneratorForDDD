@@ -19,6 +19,7 @@ import com.intellij.psi.util.ClassUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.jps.model.java.JavaModuleSourceRootTypes;
+import org.jetbrains.jps.model.java.JavaResourceRootType;
 import org.jetbrains.jps.model.java.JavaSourceRootType;
 
 import java.util.List;
@@ -65,15 +66,19 @@ public class CodeGenAction extends AnAction {
 
         // 获得要生成代码的目标源代码路径
         VirtualFile preferredSourceRoot = getPreferredSourceRoot(project, module, selectedFile.getVirtualFile());
+        VirtualFile preferredResourceRoot = getPreferredResourceRoot(project, module, selectedFile.getVirtualFile());
         final GeneratorProperties generatorProperties = new GeneratorProperties()
                 .setClassName(preferredClassName)
                 .setPackageName(preferredPackageName)
-                .setSourceRoot(preferredSourceRoot);
+                .setSourceRoot(preferredSourceRoot)
+                .setResourceRoot(preferredResourceRoot);
         CodeGenDialog codeGenDialog=new CodeGenDialog(project, selectedClass, candidateSourceRoots, generatorProperties);
         codeGenDialog.show();
         if(codeGenDialog.isOK()){
             new CodeGenerator(selectedClass,codeGenDialog.getSelectedTargetClassPanel(),generatorProperties).generate();
         }
+        preferredSourceRoot.refresh(true, true);
+        preferredResourceRoot.refresh(true,true);
 
     }
 
@@ -104,6 +109,51 @@ public class CodeGenAction extends AnAction {
                 candidateSourceRoots = validProjectTestSourceRoots;
             } else {
                 List<VirtualFile> validProjectSourceRoots = SourceRootUtils.getSourceRoots(project, JavaSourceRootType.SOURCE, true);
+
+                if (validProjectSourceRoots.size() > 0) {
+                    candidateSourceRoots = validProjectSourceRoots;
+                }
+            }
+        }
+
+        if (candidateSourceRoots != null) {
+            if (currentSourceRoot != null && candidateSourceRoots.contains(currentSourceRoot)) {
+                preferredSourceRoot = currentSourceRoot;
+            } else {
+                preferredSourceRoot = candidateSourceRoots.get(0);
+            }
+        }
+
+        return preferredSourceRoot;
+    }
+
+    @Nullable
+    private VirtualFile getPreferredResourceRoot(@NotNull Project project, @Nullable Module module, @Nullable VirtualFile selectedFile) {
+
+        VirtualFile preferredSourceRoot = null;
+
+        VirtualFile currentSourceRoot = selectedFile != null ?
+                ProjectRootManager.getInstance(project).getFileIndex().getSourceRootForFile(selectedFile) : null;
+
+        List<VirtualFile> candidateSourceRoots = null;
+
+        if (module != null) {
+            List<VirtualFile> validModuleTestSourceRoots = SourceRootUtils.getSourceRoots(module, JavaResourceRootType.RESOURCE, true);
+            if (validModuleTestSourceRoots.size() > 0) {
+                candidateSourceRoots = validModuleTestSourceRoots;
+            } else {
+                List<VirtualFile> validModuleSourceRoots = SourceRootUtils.getSourceRoots(module, JavaResourceRootType.RESOURCE, true);
+
+                if (validModuleSourceRoots.size() > 0) {
+                    candidateSourceRoots = validModuleSourceRoots;
+                }
+            }
+        } else {
+            List<VirtualFile> validProjectTestSourceRoots = SourceRootUtils.getSourceRoots(project, JavaResourceRootType.RESOURCE, true);
+            if (validProjectTestSourceRoots.size() > 0) {
+                candidateSourceRoots = validProjectTestSourceRoots;
+            } else {
+                List<VirtualFile> validProjectSourceRoots = SourceRootUtils.getSourceRoots(project, JavaResourceRootType.RESOURCE, true);
 
                 if (validProjectSourceRoots.size() > 0) {
                     candidateSourceRoots = validProjectSourceRoots;

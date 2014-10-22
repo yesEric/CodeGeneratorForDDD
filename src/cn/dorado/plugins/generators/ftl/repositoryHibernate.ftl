@@ -10,7 +10,7 @@ import ${entityPackage}.${entityClassName};
 import cn.dorado.infra.domain.persistence.GenericRepositoryHibernate;
 
 /**
- * ${entityClassName} Repository的Hibernate实现.
+ * the implements of ${entityClassName} Repository.
  */
 @Repository("${repositoryClassName?uncap_first}")
 public class ${repositoryImplClassName} extends
@@ -23,7 +23,7 @@ public class ${repositoryImplClassName} extends
 	private static final long serialVersionUID = 7108352514799947605L;
 
 	/**
-	 * 初始构造时确定实体对象.
+	 * Initial the entity object.
 	 */
 	public  ${repositoryImplClassName}() {
 		super(${entityClassName}.class);

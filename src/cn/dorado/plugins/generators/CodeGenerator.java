@@ -38,7 +38,7 @@ public class CodeGenerator {
    private final GeneratorProperties generatorProperties;
     public CodeGenerator(@NotNull PsiClass psiClass,@NotNull EntitySelectionPanel entitySelectionPanel,@NotNull final GeneratorProperties generatorProperties) {
         configuration = new Configuration(Configuration.VERSION_2_3_21);
-        configuration.setTemplateLoader(new ClassTemplateLoader(getClass(), ""));
+        configuration.setTemplateLoader(new ClassTemplateLoader(getClass(), "ftl"));
        // configuration.setDefaultEncoding("UTF-8");
         this.psiClass = psiClass;
         this.project=psiClass.getProject();
@@ -57,6 +57,7 @@ public class CodeGenerator {
         generateAppServiceImpl();
         generateDTO();
         generateCommand();
+        generateHibernateConfig();
 
     }
 
@@ -173,6 +174,42 @@ public class CodeGenerator {
 
         System.out.println("Generate DTO End....");
     }
+
+    private void generateHibernateConfig(){
+        System.out.println("Generate Hibernate Config Begin....");
+
+
+        String entityClassName=this.entitySelectionPanel.getEntityClassTextField().getText();
+        String entityPackage=this.entitySelectionPanel.getEntityPackageTextField().getText();
+        String templateFile="hibernateConfig.ftl";
+        final PsiDirectory parentDirectory = findOrCreateParentDirectoryForResource("");
+
+        final String fileName = entityClassName + ".hbm.xml";
+        final PsiFile existingFile = parentDirectory.findFile(fileName);
+        if (existingFile != null && !shouldOverwriteFile(existingFile)) {
+            // Abort
+            return;
+        }
+        try {
+            Template template = configuration.getTemplate(templateFile);
+
+            Map map = new HashMap();
+            map.put("entityPackageName",entityPackage);
+            map.put("entityClassName",entityClassName);
+            map.put("fields", psiClass.getAllFields());
+
+
+            Writer writer = new FileWriter(new File(parentDirectory.getVirtualFile().getCanonicalPath()+"\\"+fileName));
+            template.process(map, writer);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TemplateException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Generate  Hibernate Config  End....");
+    }
     private void generateAppQuery(){
         System.out.println("Generate Application Query Service Begin....");
 
@@ -219,9 +256,6 @@ public class CodeGenerator {
 
         for(int i=0;i<listModel.getSize();i++){
             String methodName=listModel.getElementAt(i).toString();
-//            String first = methodName.substring(0, 1).toUpperCase();
-//            String rest = methodName.substring(1, methodName.length());
-//            String newStr = new StringBuffer(first).append(rest).toString();
 
             StringBuilder sb = new StringBuilder(methodName);
             sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
@@ -518,6 +552,24 @@ public class CodeGenerator {
     @NotNull
     private PsiDirectory findOrCreateParentDirectory(final String packageName) {
         final PsiDirectory baseDir = PsiManager.getInstance(project).findDirectory(generatorProperties.getSourceRoot());
+        assert (baseDir != null);
+
+        // Ensure that the directory for the target package exists
+        ApplicationManager.getApplication().runWriteAction(new Runnable() {
+            public void run() {
+                PsiUtils.createMissingDirectoriesForPackage(baseDir, packageName);
+            }
+        });
+
+        PsiDirectory directory = PsiUtils.findDirectoryForPackage(baseDir, packageName);
+        assert (directory != null);
+
+        return directory;
+    }
+
+    @NotNull
+    private PsiDirectory findOrCreateParentDirectoryForResource(final String packageName) {
+        final PsiDirectory baseDir = PsiManager.getInstance(project).findDirectory(generatorProperties.getResourceRoot());
         assert (baseDir != null);
 
         // Ensure that the directory for the target package exists

@@ -10,17 +10,17 @@ import ${dtoPackage}.${dto};
  */
 public interface ${appQueryClassName} {
 	/**
-	 * 获得所有渠道的方法.
-     *  @return 获得所有的${entityClassName}对象.
+	 *  get all ${entityClassName}s .
+     *  @return a list of {entityClassName}.
 	 */
 	 List<${dto}> all${entityClassName}s();
 
 	/**
-	 * 获取一个${entityClassName}对象的方法，根据ID.
+	 * get the {entityClassName} based on its ID.
 	 *
 	 * @param  ${entityClassName?uncap_first}Id
-	 *            ${entityClassName}的ID
-	 * @return ${entityClassName}对象
+	 *            the id of ${entityClassName}
+	 * @return ${entityClassName} object.
 	 */
 	 ${dto}  ${entityClassName?uncap_first}OfId(String  ${entityClassName?uncap_first}Id);
 

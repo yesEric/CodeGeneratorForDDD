@@ -19,12 +19,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * ${entityClassName}的应用服务对象实现类.
+ * ${entityClassName}'s application service implementation.
  */
 @Service("${appServiceClassName?uncap_first}")
 public class ${appServiceImplClassName} implements ${appServiceClassName} {
 	/**
-	 * ${entityClassName}对象的资源库.
+	 * ${entityClassName}'s repository.
 	 */
 	@Autowired
 	private ${repositoryClassName} ${repositoryClassName?uncap_first};
@@ -41,7 +41,7 @@ public class ${appServiceImplClassName} implements ${appServiceClassName} {
 
         public void remove${entityClassName}(Remove${entityClassName}Command remove${entityClassName}Command)
                 throws IllegalStatusException{
-                //TODO: 增加删除逻辑
+                //TODO: to add the remove logic.
 
                 ${entityClassName} ${entityClassName?uncap_first} =
                        ${repositoryClassName?uncap_first}.${entityClassName?uncap_first}OfId(remove${entityClassName}Command

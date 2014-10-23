@@ -55,6 +55,7 @@ public class WebCodeGenAction extends AnAction {
             webCodeGenerator.generate();
         }
         preferredSourceRoot.refresh(true,true);
+        preferredWebRoot.refresh(true,true);
 
     }
 

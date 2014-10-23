@@ -82,6 +82,42 @@ public class WebCodeGenerator {
     }
     private void generateFormPage(){
         System.out.println("Generate Form Page Begin....");
+        String entityName=psiClass.getName();
+
+        String templateFile="formPage.ftl";
+        final PsiDirectory parentDirectory = findOrCreateParentDirectoryForWeb("WEB-INF/pages/"+entityName.toLowerCase());
+
+        final String fileName = "form.jsp";
+        final PsiFile existingFile = parentDirectory.findFile(fileName);
+        if (existingFile != null && !shouldOverwriteFile(existingFile)) {
+            // Abort
+            return;
+        }
+
+        List methods = new ArrayList();
+        for (PsiMethod psiMethod : psiClass.getAllMethods()) {
+
+            String methodName = psiMethod.getName();
+            if (isBusinessMethod(methodName)) {
+                methods.add(methodName);
+            }
+        }
+
+        try {
+            Template template = configuration.getTemplate(templateFile);
+            Map map = new HashMap();
+            map.put("entityName", entityName);
+            map.put("fields", psiClass.getAllFields());
+            map.put("methods", methods);
+
+            Writer writer = new FileWriter(new File(parentDirectory.getVirtualFile().getCanonicalPath()+"\\"+fileName));
+            template.process(map, writer);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TemplateException e) {
+            e.printStackTrace();
+        }
 
 
         System.out.println("Generate Form Page End....");

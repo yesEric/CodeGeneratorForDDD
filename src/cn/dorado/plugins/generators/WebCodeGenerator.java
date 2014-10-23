@@ -98,8 +98,10 @@ public class WebCodeGenerator {
         for (PsiMethod psiMethod : psiClass.getAllMethods()) {
 
             String methodName = psiMethod.getName();
-            if (isBusinessMethod(methodName)) {
-                methods.add(methodName);
+            if (isBusinessMethod(methodName,entityName)) {
+                if(methodName.substring(0,2)!="is") {
+                    methods.add(methodName);
+                }
             }
         }
 
@@ -130,8 +132,10 @@ public class WebCodeGenerator {
         for (PsiMethod psiMethod : psiClass.getAllMethods()) {
 
             String methodName = psiMethod.getName();
-            if (isBusinessMethod(methodName)) {
-                methods.add(methodName);
+            if (isBusinessMethod(methodName,entityName)) {
+                if(methodName.substring(0,2)!="is") {
+                    methods.add(methodName);
+                }
             }
         }
 
@@ -164,7 +168,7 @@ public class WebCodeGenerator {
         System.out.println("Generate Struts End....");
     }
 
-    private boolean isBusinessMethod(String methodName) {
+    private boolean isBusinessMethod(String methodName,String entityName) {
         if (methodName.startsWith("set")) {
             return false;
         }
@@ -182,6 +186,10 @@ public class WebCodeGenerator {
         systemMethods.add("wait");
         systemMethods.add("finalize");
         systemMethods.add("registerNatives");
+        systemMethods.add("publishEvent");
+        systemMethods.add("ConcurrencySafeEntity");
+        systemMethods.add("IdentifiedDomainObject");
+        systemMethods.add(entityName);
         if (systemMethods.contains(methodName)) {
             return false;
         }

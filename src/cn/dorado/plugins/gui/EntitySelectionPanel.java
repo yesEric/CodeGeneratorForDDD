@@ -85,9 +85,11 @@ public class EntitySelectionPanel {
         for (PsiMethod psiMethod : psiMethods) {
 
             String methodName = psiMethod.getName();
-            if (isBusinessMethod(methodName)) {
-                methods.add(methodName);
-                commandList.add(methodName + entityName + "Command");
+            if (isBusinessMethod(methodName,entityName)) {
+                if(methodName.substring(0,2)!="is") {
+                    methods.add(methodName);
+                    commandList.add(methodName + entityName + "Command");
+                }
             }
 
         }
@@ -110,7 +112,7 @@ public class EntitySelectionPanel {
         return rootPanel;
     }
 
-    private boolean isBusinessMethod(String methodName) {
+    private boolean isBusinessMethod(String methodName,String entiryName) {
         if (methodName.startsWith("set")) {
             return false;
         }
@@ -128,6 +130,10 @@ public class EntitySelectionPanel {
         systemMethods.add("wait");
         systemMethods.add("finalize");
         systemMethods.add("registerNatives");
+        systemMethods.add("registerNatives");
+        systemMethods.add("publishEvent");
+        systemMethods.add("ConcurrencySafeEntity");
+        systemMethods.add("IdentifiedDomainObject");
         if (systemMethods.contains(methodName)) {
             return false;
         }
